@@ -191,3 +191,56 @@ navLinks.forEach(link => {
         link.classList.add('active');
     });
 });
+
+// --- image.html specific interactivity ---
+
+// Add interactivity to category buttons (image.html)
+document.querySelectorAll('.category-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+        // In a real implementation, this would filter the tools
+        console.log(`Filtering by: ${button.textContent}`);
+    });
+});
+
+// Add search functionality (image.html)
+const imageSearchInput = document.querySelector('.search-bar input');
+if (imageSearchInput) {
+    imageSearchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        console.log(`Searching for: ${searchTerm}`);
+        // In a real implementation, this would filter the tools
+    });
+}
+
+// Mobile menu toggle (image.html)
+const imageMenuToggle = document.querySelector('.menu-toggle');
+const imageNav = document.querySelector('nav');
+if (imageMenuToggle && imageNav) {
+    imageMenuToggle.addEventListener('click', () => {
+        imageNav.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!imageNav.contains(e.target) && !imageMenuToggle.contains(e.target)) {
+            imageNav.classList.remove('active');
+        }
+    });
+}
+
+// Add animation to cards on scroll (image.html)
+const imageObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animation = 'fadeIn 0.6s ease forwards';
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.tool-card, .stat-box').forEach(card => {
+    imageObserver.observe(card);
+});
