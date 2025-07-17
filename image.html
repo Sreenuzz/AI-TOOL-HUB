@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generation Tools Directory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7b2ff2;
+            --secondary: #4e54c8;
+            --accent: #8f94fb;
+            --dark: #181828;
+            --darker: #23233a;
+            --light: #e0e0e0;
+            --card-bg: #d1cbe6;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #8d99ae;
+            --image-gradient: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark), var(--darker));
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header styling */
+        .site-header {
+            background: rgba(35, 35, 58, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(123, 47, 242, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--light);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        nav a.active {
+            color: var(--primary);
+        }
+        
+        nav a.active:after,
+        nav a:hover:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .cta-button {
+            padding: 10px 25px;
+            border-radius: 30px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 84, 200, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(78, 84, 200, 0.5);
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+        
+        /* Hero section */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .hero-content {
+            flex: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--light);
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            transform: rotate3d(0.5, 1, 0, 15deg);
+        }
+        
+        .image-cell {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-cell:nth-child(1) {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+        }
+        
+        .image-cell:nth-child(2) {
+            background: linear-gradient(45deg, #a1c4fd, #c2e9fb);
+        }
+        
+        .image-cell:nth-child(3) {
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+        }
+        
+        .image-cell:nth-child(4) {
+            background: linear-gradient(45deg, #84fab0, #8fd3f4);
+        }
+        
+        .image-cell:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+        
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 50px;
+            border: 2px solid var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 4px 25px rgba(123, 47, 242, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: rgba(123, 47, 242, 0.15);
+            color: var(--light);
+            font-family: 'Roboto Mono', monospace;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(123, 47, 242, 0.3);
+            font-weight: 500;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(123, 47, 242, 0.4);
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .tool-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(123, 47, 242, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(123, 47, 242, 0.3);
+            border: 1px solid rgba(123, 47, 242, 0.4);
+        }
+        
+        .card-header {
+            padding: 25px 25px 15px;
+            border-bottom: 1px solid rgba(123, 47, 242, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-card:hover .icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+        
+        .tool-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .tool-category {
+            font-size: 0.85rem;
+            background: rgba(123, 47, 242, 0.2);
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .card-body {
+            padding: 20px 25px;
+        }
+        
+        .tool-description {
+            color: var(--light);
+            margin-bottom: 20px;
+            min-height: 80px;
+            opacity: 0.9;
+        }
+        
+        .features {
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .features-list {
+            list-style-type: none;
+        }
+        
+        .features-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-card:hover .features-list li {
+            transform: translateX(5px);
+        }
+        
+        .features-list li:before {
+            content: "•";
+            position: absolute;
+            left: 10px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .card-footer {
+            padding: 15px 25px;
+            background: rgba(35, 35, 58, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .visit-btn {
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(78, 84, 200, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .visit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(78, 84, 200, 0.5);
+        }
+        
+        .popular-badge {
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(123, 47, 242, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(123, 47, 242, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(123, 47, 242, 0); }
+        }
+        
+        .trending-badge {
+            background: var(--warning);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .new-badge {
+            background: var(--success);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(123, 47, 242, 0.1);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: rgba(123, 47, 242, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            min-width: 200px;
+            border: 1px solid rgba(123, 47, 242, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+            background: rgba(123, 47, 242, 0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--light);
+            opacity: 0.8;
+        }
+        
+        /* Mobile Menu */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--darker);
+                padding: 20px;
+                transform: translateY(-150%);
+                transition: transform 0.5s ease;
+                z-index: 100;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+            
+            nav.active {
+                transform: translateY(0);
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .hero {
+                flex-direction: column;
+                padding: 30px 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-box {
+                width: 100%;
+            }
+        }
+        
+        /* Animation for page load */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tool-card, .stat-box {
+            animation: fadeIn 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        .tool-card:nth-child(1) { animation-delay: 0.1s; }
+        .tool-card:nth-child(2) { animation-delay: 0.2s; }
+        .tool-card:nth-child(3) { animation-delay: 0.3s; }
+        .tool-card:nth-child(4) { animation-delay: 0.4s; }
+        .tool-card:nth-child(5) { animation-delay: 0.5s; }
+        .tool-card:nth-child(6) { animation-delay: 0.6s; }
+        .tool-card:nth-child(7) { animation-delay: 0.7s; }
+        .tool-card:nth-child(8) { animation-delay: 0.8s; }
+        
+        /* Generated image examples */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            height: 250px;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            z-index: 1;
+        }
+        
+        .gallery-item:nth-child(1) { background: linear-gradient(45deg, #ff9a9e, #fad0c4); }
+        .gallery-item:nth-child(2) { background: linear-gradient(45deg, #a1c4fd, #c2e9fb); }
+        .gallery-item:nth-child(3) { background: linear-gradient(45deg, #ffecd2, #fcb69f); }
+        .gallery-item:nth-child(4) { background: linear-gradient(45deg, #84fab0, #8fd3f4); }
+        .gallery-item:nth-child(5) { background: linear-gradient(45deg, #d4fc79, #96e6a1); }
+        .gallery-item:nth-child(6) { background: linear-gradient(45deg, #a6c0fe, #f68084); }
+        
+        .gallery-label {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            color: white;
+            z-index: 2;
+            font-weight: 500;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin: 40px 0 30px;
+            color: white;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fas fa-palette"></i></div>
+                <div class="logo-text">AI Art Hub</div>
+            </a>
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="tools.html">Tools</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="cta-button">Submit Tool</a>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Transform Your Imagination into Stunning Visuals</h1>
+                <p>Discover the most powerful AI tools for creating breathtaking images, art, and designs from simple text prompts.</p>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search for AI tools, features, or styles...">
+                </div>
+                
+                <div class="categories">
+                    <button class="category-btn active">All Tools</button>
+                    <button class="category-btn">Text-to-Image</button>
+                    <button class="category-btn">Image Editing</button>
+                    <button class="category-btn">Art Generation</button>
+                    <button class="category-btn">Photo Realism</button>
+                    <button class="category-btn">Style Transfer</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-grid">
+                    <div class="image-cell"></div>
+                    <div class="image-cell"></div>
+                    <div class="image-cell"></div>
+                    <div class="image-cell"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Stats Section -->
+        <!-- <div class="stats">
+            <div class="stat-box">
+                <div class="stat-value">85+</div>
+                <div class="stat-label">AI Tools Listed</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">1.2B+</div>
+                <div class="stat-label">Images Generated</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">18M+</div>
+                <div class="stat-label">Creators</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">24</div>
+                <div class="stat-label">New This Month</div>
+            </div>
+        </div> -->
+        
+        <!-- Gallery Section -->
+        <!-- <h2 class="section-title">AI Generated Art Showcase</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <div class="gallery-label">Fantasy Landscape</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-label">Cyberpunk Cityscape</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-label">Surreal Portrait</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-label">Abstract Geometry</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-label">Anime Character</div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-label">Hyperrealistic Nature</div>
+            </div> -->
+        <!-- </div> -->
+        
+        <!-- Tools Grid -->
+        <h2 class="section-title">Top AI Image Generation Tools</h2>
+        <div class="tools-grid">
+            <!-- Tool Card 1 -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div>
+                        <div class="tool-name">Midjourney</div>
+                        <span class="tool-category">Art Generation</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="tool-description">Create stunning images from text prompts with artistic styles and high-quality outputs.</p>
+                    <div class="features">
+                        <div class="feature-title">Key Features</div>
+                        <ul class="features-list">
+                            <li>Discord-based interface</li>
+                            <li>Multiple artistic styles</li>
+                            <li>High-resolution outputs</li>
+                            <li>Community collaboration</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="visit-btn"><i class="fas fa-external-link-alt"></i> Visit Website</a>
+                    <div class="popular-badge">Most Popular</div>
+                </div>
+            </div>
+            
+            <!-- Tool Card 2 -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div>
+                        <div class="tool-name">DALL·E 3</div>
+                        <span class="tool-category">Text-to-Image</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="tool-description">OpenAI's advanced image generation model with exceptional prompt understanding.</p>
+                    <div class="features">
+                        <div class="feature-title">Key Features</div>
+                        <ul class="features-list">
+                            <li>Exceptional prompt understanding</li>
+                            <li>Photorealistic images</li>
+                            <li>Seamless integration with ChatGPT</li>
+                            <li>Commercial usage rights</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="visit-btn"><i class="fas fa-external-link-alt"></i> Visit Website</a>
+                    <div class="trending-badge">Trending</div>
+                </div>
+            </div>
+            
+            <!-- Tool Card 3 -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div>
+                        <div class="tool-name">Stable Diffusion</div>
+                        <span class="tool-category">Open Source</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="tool-description">Open-source text-to-image model with extensive customization options.</p>
+                    <div class="features">
+                        <div class="feature-title">Key Features</div>
+                        <ul class="features-list">
+                            <li>Fully open-source</li>
+                            <li>Run locally on your machine</li>
+                            <li>Extensive model fine-tuning</li>
+                            <li>Active developer community</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="visit-btn"><i class="fas fa-external-link-alt"></i> Visit Website</a>
+                </div>
+            </div>
+            
+            <!-- Tool Card 4 -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div>
+                        <div class="tool-name">Adobe Firefly</div>
+                        <span class="tool-category">Creative Suite</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="tool-description">Professional AI art tools integrated into Adobe Creative Cloud ecosystem.</p>
+                    <div class="features">
+                        <div class="feature-title">Key Features</div>
+                        <ul class="features-list">
+                            <li>Seamless Photoshop integration</li>
+                            <li>Vector image generation</li>
+                            <li>Content-aware editing</li>
+                            <li>Commercial-safe outputs</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="visit-btn"><i class="fas fa-external-link-alt"></i> Visit Website</a>
+                    <div class="new-badge">New</div>
+                </div>
+            </div>
+            
+            <!-- Tool Card 5 -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div>
+                        <div class="tool-name">Leonardo.AI</div>
+                        <span class="tool-category">Game Assets</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="tool-description">Create production-quality assets for games with fine-grained control.</p>
+                    <div class="features">
+                        <div class="feature-title">Key Features</div>
+                        <ul class="features-list">
+                            <li>Texture generation</li>
+                            <li>3D model texturing</li>
+                            <li>Concept art creation</li>
+                            <li>Asset fine-tuning</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="visit-btn"><i class="fas fa-external-link-alt"></i> Visit Website</a>
+                </div>
+            </div>
+            
+            <!-- Tool Card 6 -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon">
+                        <i class="fas fa-expand"></i>
+                    </div>
+                    <div>
+                        <div class="tool-name">Magnific AI</div>
+                        <span class="tool-category">Image Upscaling</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="tool-description">Upscale and enhance images with AI while adding realistic details.</p>
+                    <div class="features">
+                        <div class="feature-title">Key Features</div>
+                        <ul class="features-list">
+                            <li>10x image upscaling</li>
+                            <li>Detail enhancement</li>
+                            <li>Style transfer</li>
+                            <li>Batch processing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="visit-btn"><i class="fas fa-external-link-alt"></i> Visit Website</a>
+                </div>
+            </div>
+            
+            <!-- Tool Card 7 -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon">
+                        <i class="fas fa-portrait"></i>
+                    </div>
+                    <div>
+                        <div class="tool-name">Artbreeder</div>
+                        <span class="tool-category">Collaborative</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="tool-description">Create and explore endless variations of images through breeding.</p>
+                    <div class="features">
+                        <div class="feature-title">Key Features</div>
+                        <ul class="features-list">
+                            <li>Image breeding and mixing</li>
+                            <li>Style transfer</li>
+                            <li>Community remixing</li>
+                            <li>Character creation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="visit-btn"><i class="fas fa-external-link-alt"></i> Visit Website</a>
+                </div>
+            </div>
+            
+            <!-- Tool Card 8 -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div>
+                        <div class="tool-name">Runway ML</div>
+                        <span class="tool-category">Video & Image</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="tool-description">Next-generation creative suite with AI-powered video and image tools.</p>
+                    <div class="features">
+                        <div class="feature-title">Key Features</div>
+                        <ul class="features-list">
+                            <li>Text-to-video generation</li>
+                            <li>Image-to-video tools</li>
+                            <li>Green screen removal</li>
+                            <li>Professional editing tools</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="visit-btn"><i class="fas fa-external-link-alt"></i> Visit Website</a>
+                    <div class="trending-badge">Trending</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>AI Image Generation Tools Directory • Continuously Updated with New Tools</p>
+            <p>© 2025 AI Art Resources • Over 85 tools cataloged</p>
+        </footer>
+    </div>
+</body>
+</html>
