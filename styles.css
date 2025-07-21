@@ -468,7 +468,7 @@ footer {
 
 /* Individual category cards */
 .category-card {
-  background: rgba(252, 250, 252, 0.7);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 18px;
   padding: 1.8rem 1.5rem;
   font-weight: 600;
@@ -484,6 +484,7 @@ footer {
     color 0.35s ease,
     background 0.35s ease;
   user-select: none;
+    text-decoration: none
 }
 
 /* Hover effect: scale up, glow and color shift */
@@ -1979,3 +1980,4 @@ footer {
     border: 2px solid #ccc;
     border-radius: 12px;
 }
+
